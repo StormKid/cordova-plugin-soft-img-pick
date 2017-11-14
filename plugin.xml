@@ -10,23 +10,30 @@
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="softImgPick">
                 <param name="android-package" value="com.soft.img.pick" />
+                <param name="onload" value="true" />
             </feature>
         </config-file>
-        <framework src="com.android.support:appcompat-v7:23+" />
+        <!-- 支持包 -->
+        <framework src="com.android.support:appcompat-v7:23.+" />
         <framework src="com.android.support:recyclerview-v7:23.+" />
-    
-        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <framework src="com.github.bumptech.glide:glide:4.3.1"/>
+        <!-- Android配置文件 -->
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.INTERNET" />
+        </config-file>
         <source-file src="src/android/softImgPick.java" target-dir="src/com/soft/img/pick" />
         <!-- 库文件代码 -->
         <source-file src="src/android/library/src/AlbumAdapter.java" target-dir="src/com/soft/img/pick"/>
         <source-file src="src/android/library/src/ImagePickActivity.java" target-dir="src/com/soft/img/pick"/>
-        <source-file src="src/android/library/src/ImagePickActivity.java" target-dir="src/com/soft/img/pick"/>
-        <source-file src="src/android/library/src/ImagePickActivity.java" target-dir="src/com/soft/img/pick"/>
+        <source-file src="src/android/library/src/ItemPhotoEntity.java" target-dir="src/com/soft/img/pick"/>
+        <source-file src="src/android/library/src/Utils.java" target-dir="src/com/soft/img/pick"/>
         <!-- res资源文件 -->
-        <source-file src="src/android/library/res/album.png" target-dir="res/mipmap-xxhdpi"/>
-        <source-file src="src/android/library/res/choose.png" target-dir="res/mipmap-xxhdpi"/>
-        <source-file src="src/android/library/res/no.png" target-dir="res/mipmap-xxhdpi"/>
-
-
-    </platform>
-</plugin>
+        <source-file src="src/android/library/res/mipmap/album.png" target-dir="res/mipmap-xxhdpi"/>
+        <source-file src="src/android/library/res/mipmap/choose.png" target-dir="res/mipmap-xxhdpi"/>
+        <source-file src="src/android/library/res/mipmap/no.png" target-dir="res/mipmap-xxhdpi"/>
+        <!-- 布局文件 -->
+        <source-file src="src/android/library/res/layout/activity_main.xml" target-dir="res/mipmap-xxhdpi"/>
+        <source-file src="src/android/library/res/layout/item_main.xml" target-dir="res/mipmap-xxhdpi"/>
+        </platform>
+    </plugin>

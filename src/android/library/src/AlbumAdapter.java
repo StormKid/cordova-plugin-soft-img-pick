@@ -1,4 +1,4 @@
-package com.soft.img.pick;
+package pick.image.com.myapplication;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

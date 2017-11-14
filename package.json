@@ -1,0 +1,11 @@
+{
+  "name": "softimgpick",
+  "version": "1.0.0",
+  "description": "a soft img pick",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "like",
+  "license": "Apache-2.0"
+}

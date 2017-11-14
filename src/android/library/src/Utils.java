@@ -1,4 +1,4 @@
-package com.soft.img.pick;
+package pick.image.com.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
