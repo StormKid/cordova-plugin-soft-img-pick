@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import io.cordova.hellocordova.R;
+import com.soft.img.pick.R;
 
 import java.util.List;
 

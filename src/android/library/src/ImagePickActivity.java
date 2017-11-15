@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import io.cordova.hellocordova.R;
+import com.soft.img.pick.R;
 
 import java.io.File;
 import java.util.ArrayList;
