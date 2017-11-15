@@ -261,9 +261,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                netTask.execute();
            }else {
                Intent intent = new Intent();
-               Bundle bundle = new Bundle();
-               bundle.putStringArrayList("path_list",results);
-               intent.putExtra("path_bundle",bundle);
+               intent.putStringArrayListExtra("path_list",results);
                finish();
            }
         }
