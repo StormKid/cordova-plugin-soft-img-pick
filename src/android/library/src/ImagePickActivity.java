@@ -248,7 +248,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
      */
     private void setResults() {
         if (results != null && results.size() > 0) results.clear();
-        for (pick.image.com.myapplication.ItemPhotoEntity entity :
+        for (com.soft.img.pick.ItemPhotoEntity entity :
                 itemPhotoEntities) {
             if (entity.isChecked()) {
                 results.add(entity.getPath());
@@ -274,7 +274,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
      * 后台默认执行Task来完成查找相册与查看相片
      * 在调用此tast的时候必须要验证权限
      */
-    private class MyTask extends AsyncTask<Integer, Integer, ArrayList<pick.image.com.myapplication.ItemPhotoEntity>> {
+    private class MyTask extends AsyncTask<Integer, Integer, ArrayList<com.soft.img.pick.ItemPhotoEntity>> {
 
 
         private String album;
@@ -286,7 +286,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
 
         //执行完毕获取数据
         @Override
-        protected void onPostExecute(ArrayList<pick.image.com.myapplication.ItemPhotoEntity> items) {
+        protected void onPostExecute(ArrayList<com.soft.img.pick.ItemPhotoEntity> items) {
             super.onPostExecute(items);
             albumAdapter.update(items);
         }
@@ -298,7 +298,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
 
         //执行中判断string是相册还是查相片
         @Override
-        protected ArrayList<pick.image.com.myapplication.ItemPhotoEntity> doInBackground(Integer... integers) {
+        protected ArrayList<com.soft.img.pick.ItemPhotoEntity> doInBackground(Integer... integers) {
             int TAG = integers[0];
             switch (TAG) {
                 case ALBUM_TYPE:
@@ -312,7 +312,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                         break;
                     }
 
-                    ArrayList<pick.image.com.myapplication.ItemPhotoEntity> temp = new ArrayList<pick.image.com.myapplication.ItemPhotoEntity>(cursor.getCount());
+                    ArrayList<com.soft.img.pick.ItemPhotoEntity> temp = new ArrayList<com.soft.img.pick.ItemPhotoEntity>(cursor.getCount());
                     HashSet<String> albumSet = new HashSet<String>();
                     File file;
                     if (cursor.moveToLast()) {
@@ -324,7 +324,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                             String image = cursor.getString(cursor.getColumnIndex(projection[1]));
                             file = new File(image);
                             if (file.exists() && !albumSet.contains(album)) {
-                                pick.image.com.myapplication.ItemPhotoEntity itemPhotoEntity = new pick.image.com.myapplication.ItemPhotoEntity();
+                                com.soft.img.pick.ItemPhotoEntity itemPhotoEntity = new com.soft.img.pick.ItemPhotoEntity();
                                 itemPhotoEntity.setName(album);
                                 itemPhotoEntity.setType(TAG);
                                 temp.add(itemPhotoEntity);
@@ -348,7 +348,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                     if (icursor == null) {
                         break;
                     }
-                    ArrayList<pick.image.com.myapplication.ItemPhotoEntity> tempi = new ArrayList<pick.image.com.myapplication.ItemPhotoEntity>(icursor.getCount());
+                    ArrayList<com.soft.img.pick.ItemPhotoEntity> tempi = new ArrayList<com.soft.img.pick.ItemPhotoEntity>(icursor.getCount());
 
                     if (icursor.moveToLast()) {
                         do {
@@ -360,7 +360,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                             String path = icursor.getString(icursor.getColumnIndex(iprojection[2]));
                             file = new File(path);
                             if (file.exists()) {
-                                pick.image.com.myapplication.ItemPhotoEntity photoEntity = new pick.image.com.myapplication.ItemPhotoEntity();
+                                com.soft.img.pick.ItemPhotoEntity photoEntity = new com.soft.img.pick.ItemPhotoEntity();
                                 photoEntity.setId(id);
                                 photoEntity.setName(name);
                                 photoEntity.setPath(path);
