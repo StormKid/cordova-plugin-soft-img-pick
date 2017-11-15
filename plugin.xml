@@ -33,7 +33,7 @@
         <source-file src="src/android/library/res/mipmap/choose.png" target-dir="res/mipmap-xxhdpi"/>
         <source-file src="src/android/library/res/mipmap/no.png" target-dir="res/mipmap-xxhdpi"/>
         <!-- 布局文件 -->
-        <source-file src="src/android/library/res/layout/activity_main.xml" target-dir="res/mipmap-xxhdpi"/>
-        <source-file src="src/android/library/res/layout/item_main.xml" target-dir="res/mipmap-xxhdpi"/>
+        <source-file src="src/android/library/res/layout/activity_main.xml" target-dir="res/layout"/>
+        <source-file src="src/android/library/res/layout/item_main.xml" target-dir="res/layout"/>
         </platform>
     </plugin>
