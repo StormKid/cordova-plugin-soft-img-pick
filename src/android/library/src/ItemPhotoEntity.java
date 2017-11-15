@@ -1,4 +1,4 @@
-package pick.image.com.myapplication;
+package com.soft.img.pick;
 
 import java.io.Serializable;
 

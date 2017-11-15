@@ -1,4 +1,4 @@
-package pick.image.com.myapplication;
+package com.soft.img.pick;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import io.cordova.hellocordova.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.HashSet;
  * @author ke_li
  * @date 2017/11/6
  */
-public class ImagePickActivity extends AppCompatActivity implements View.OnClickListener, AlbumAdapter.MyClickItemListerner {
+public class ImagePickActivity extends AppCompatActivity implements View.OnClickListener, com.soft.img.pick.AlbumAdapter.MyClickItemListerner {
     /**
      * 确认名称
      */
@@ -78,7 +79,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
     /**
      * 新建数组来固定显示相册或者是相片
      */
-    private ArrayList<ItemPhotoEntity> itemPhotoEntities = new ArrayList<>();
+    private ArrayList<pick.image.com.myapplication.ItemPhotoEntity> itemPhotoEntities = new ArrayList<>();
 
     /**
      * 限制能选择照相数量
@@ -107,7 +108,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
 
     private final String[] projection = new String[]{MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.DATA};
     private final String[] iprojection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
-    private AlbumAdapter albumAdapter;
+    private com.soft.img.pick.AlbumAdapter albumAdapter;
     private MyTask task;
     private ProgressDialog progressDialog;
     private NetTask netTask;
@@ -160,10 +161,10 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
         progressDialog.setCancelable(false);// 设置是否可以通过点击Back键取消
         progressDialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        title_cancel = Utils.findViewById(TextView.class, this, R.id.title_cancel);
-        title_ok = Utils.findViewById(TextView.class, this, R.id.title_ok);
-        pick_main = Utils.findViewById(ViewGroup.class, this, R.id.pick_main);
-        file_list = Utils.findViewById(RecyclerView.class, this, R.id.file_list);
+        title_cancel = com.soft.img.pick.Utils.findViewById(TextView.class, this, R.id.title_cancel);
+        title_ok = com.soft.img.pick.Utils.findViewById(TextView.class, this, R.id.title_ok);
+        pick_main = com.soft.img.pick.Utils.findViewById(ViewGroup.class, this, R.id.pick_main);
+        file_list = com.soft.img.pick.Utils.findViewById(RecyclerView.class, this, R.id.file_list);
 
     }
 
@@ -177,14 +178,14 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
         CHCEK_IMG_RES = TextUtils.isEmpty(CHCEK_IMG_RES)?"":CHCEK_IMG_RES;
         getTextPx(MANAGER_TITLE_TEXT_SIZE, title_cancel);
         getTextPx(MANAGER_TITLE_TEXT_SIZE, title_ok);
-        title_ok.setTextColor(Utils.getColorParcelable(OK_COLOR));
-        title_cancel.setTextColor(Utils.getColorParcelable(CANCEL_COLOR));
+        title_ok.setTextColor(com.soft.img.pick.Utils.getColorParcelable(OK_COLOR));
+        title_cancel.setTextColor(com.soft.img.pick.Utils.getColorParcelable(CANCEL_COLOR));
         title_ok.setText(OK_TEXT);
         title_cancel.setText(CANCEL_TEXT);
-        pick_main.setBackgroundColor(Utils.getColorParcelable(BANNER_CORLOR));
+        pick_main.setBackgroundColor(com.soft.img.pick.Utils.getColorParcelable(BANNER_CORLOR));
         GridLayoutManager manager = new GridLayoutManager(this, 3);
         file_list.setLayoutManager(manager);
-        albumAdapter = new AlbumAdapter(this, itemPhotoEntities,CHCEK_IMG_RES);
+        albumAdapter = new com.soft.img.pick.AlbumAdapter(this, itemPhotoEntities,CHCEK_IMG_RES);
         file_list.setAdapter(albumAdapter);
         albumAdapter.setListerner(this);
         task = new MyTask();
@@ -198,7 +199,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
      * @return
      */
     private void getTextPx(int point, TextView textView) {
-        int windowWidth = Utils.getWindowWidth(this);
+        int windowWidth = com.soft.img.pick.Utils.getWindowWidth(this);
         int px = windowWidth * point / 240;
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, px);
     }
@@ -246,7 +247,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
      */
     private void setResults() {
         if (results != null && results.size() > 0) results.clear();
-        for (ItemPhotoEntity entity :
+        for (pick.image.com.myapplication.ItemPhotoEntity entity :
                 itemPhotoEntities) {
             if (entity.isChecked()) {
                 results.add(entity.getPath());
@@ -273,7 +274,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
      * 后台默认执行Task来完成查找相册与查看相片
      * 在调用此tast的时候必须要验证权限
      */
-    private class MyTask extends AsyncTask<String, Integer, ArrayList<ItemPhotoEntity>> {
+    private class MyTask extends AsyncTask<String, Integer, ArrayList<pick.image.com.myapplication.ItemPhotoEntity>> {
 
 
         private String album;
@@ -285,7 +286,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
 
         //执行完毕获取数据
         @Override
-        protected void onPostExecute(ArrayList<ItemPhotoEntity> items) {
+        protected void onPostExecute(ArrayList<pick.image.com.myapplication.ItemPhotoEntity> items) {
             super.onPostExecute(items);
             albumAdapter.update(items);
         }
@@ -297,7 +298,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
 
         //执行中判断string是相册还是查相片
         @Override
-        protected ArrayList<ItemPhotoEntity> doInBackground(String... strings) {
+        protected ArrayList<pick.image.com.myapplication.ItemPhotoEntity> doInBackground(String... strings) {
             String TAG = strings[0];
             switch (TAG) {
                 case ALBUM_TYPE:
@@ -311,7 +312,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                         break;
                     }
 
-                    ArrayList<ItemPhotoEntity> temp = new ArrayList<>(cursor.getCount());
+                    ArrayList<pick.image.com.myapplication.ItemPhotoEntity> temp = new ArrayList<>(cursor.getCount());
                     HashSet<String> albumSet = new HashSet<>();
                     File file;
                     if (cursor.moveToLast()) {
@@ -323,7 +324,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                             String image = cursor.getString(cursor.getColumnIndex(projection[1]));
                             file = new File(image);
                             if (file.exists() && !albumSet.contains(album)) {
-                                ItemPhotoEntity itemPhotoEntity = new ItemPhotoEntity();
+                                pick.image.com.myapplication.ItemPhotoEntity itemPhotoEntity = new pick.image.com.myapplication.ItemPhotoEntity();
                                 itemPhotoEntity.setName(album);
                                 itemPhotoEntity.setType(TAG);
                                 temp.add(itemPhotoEntity);
@@ -347,7 +348,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                     if (icursor == null) {
                         break;
                     }
-                    ArrayList<ItemPhotoEntity> tempi = new ArrayList<>(icursor.getCount());
+                    ArrayList<pick.image.com.myapplication.ItemPhotoEntity> tempi = new ArrayList<>(icursor.getCount());
 
                     if (icursor.moveToLast()) {
                         do {
@@ -359,7 +360,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                             String path = icursor.getString(icursor.getColumnIndex(iprojection[2]));
                             file = new File(path);
                             if (file.exists()) {
-                                ItemPhotoEntity photoEntity = new ItemPhotoEntity();
+                                pick.image.com.myapplication.ItemPhotoEntity photoEntity = new pick.image.com.myapplication.ItemPhotoEntity();
                                 photoEntity.setId(id);
                                 photoEntity.setName(name);
                                 photoEntity.setPath(path);
@@ -439,7 +440,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
             progressDialog.setProgress(0);
             String[] temp = new String[results.size()];
             String[] paths = results.toArray(temp);
-            String rep = Utils.uploadFile(PATH_URL, paths,params,FILE_KEY);
+            String rep = com.soft.img.pick.Utils.uploadFile(PATH_URL, paths,params,FILE_KEY);
             int i = 0;
             for (i = 0; i <= 100; i++) {
                 publishProgress(i); // 将会调用onProgressUpdate方法
