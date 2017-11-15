@@ -39,12 +39,12 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
     /**
      * 查找相册
      */
-    private final String ALBUM_TYPE="ALBUM_TYPE";
+    private final int ALBUM_TYPE= 1022;
 
     /**
      * 查找相片
      */
-    private final String IMG_TYPE = "IMG_TYPE";
+    private final int IMG_TYPE = 1023;
     public AlbumAdapter(Context context, List<com.soft.img.pick.ItemPhotoEntity> entityList, String checkRes) {
         this.context = context;
         this.entityList = entityList;
@@ -65,7 +65,7 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final com.soft.img.pick.ItemPhotoEntity itemPhotoEntity = entityList.get(position);
-        final String type = itemPhotoEntity.getType();
+        final int type = itemPhotoEntity.getType();
         boolean checked = itemPhotoEntity.isChecked();
         final String name = itemPhotoEntity.getName();
         String path = itemPhotoEntity.getPath();
@@ -81,7 +81,7 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
         checkParams.setMargins(0,margin_size,margin_size,0);
         holder.check_box.setLayoutParams(checkParams);
         holder.item_img.setLayoutParams(itemParams);
-        if (type.equals(ALBUM_TYPE))
+        if (type ==ALBUM_TYPE)
         holder.item_img.setImageResource(R.mipmap.album);
         else {
             holder.item_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -98,7 +98,7 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
             public void onClick(View v) {
                 switch (type) {
                     case IMG_TYPE:
-                        boolean tag = v.getTag() == null ? false : (boolean) v.getTag();
+                        boolean tag = v.getTag() == null ? false : (Boolean) v.getTag();
                         if (tag) {
                             tag = false;
                             v.setTag(tag);

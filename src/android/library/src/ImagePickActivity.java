@@ -65,17 +65,17 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
     /**
      * 查找相册
      */
-    private final String ALBUM_TYPE = "ALBUM_TYPE";
+    private final int ALBUM_TYPE = 1022;
 
     /**
      * 查找相片
      */
-    private final String IMG_TYPE = "IMG_TYPE";
+    private final int IMG_TYPE = 1023;
 
     /**
      * 记录状态更新
      */
-    private String TYPE;
+    private int TYPE;
 
     /**
      * 新建数组来固定显示相册或者是相片
@@ -274,7 +274,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
      * 后台默认执行Task来完成查找相册与查看相片
      * 在调用此tast的时候必须要验证权限
      */
-    private class MyTask extends AsyncTask<String, Integer, ArrayList<pick.image.com.myapplication.ItemPhotoEntity>> {
+    private class MyTask extends AsyncTask<Integer, Integer, ArrayList<pick.image.com.myapplication.ItemPhotoEntity>> {
 
 
         private String album;
@@ -298,8 +298,8 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
 
         //执行中判断string是相册还是查相片
         @Override
-        protected ArrayList<pick.image.com.myapplication.ItemPhotoEntity> doInBackground(String... strings) {
-            String TAG = strings[0];
+        protected ArrayList<pick.image.com.myapplication.ItemPhotoEntity> doInBackground(Integer... integers) {
+            int TAG = integers[0];
             switch (TAG) {
                 case ALBUM_TYPE:
                     if (this.isCancelled()) {
@@ -312,8 +312,8 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                         break;
                     }
 
-                    ArrayList<pick.image.com.myapplication.ItemPhotoEntity> temp = new ArrayList<>(cursor.getCount());
-                    HashSet<String> albumSet = new HashSet<>();
+                    ArrayList<pick.image.com.myapplication.ItemPhotoEntity> temp = new ArrayList<pick.image.com.myapplication.ItemPhotoEntity>(cursor.getCount());
+                    HashSet<String> albumSet = new HashSet<String>();
                     File file;
                     if (cursor.moveToLast()) {
                         do {
@@ -348,7 +348,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
                     if (icursor == null) {
                         break;
                     }
-                    ArrayList<pick.image.com.myapplication.ItemPhotoEntity> tempi = new ArrayList<>(icursor.getCount());
+                    ArrayList<pick.image.com.myapplication.ItemPhotoEntity> tempi = new ArrayList<pick.image.com.myapplication.ItemPhotoEntity>(icursor.getCount());
 
                     if (icursor.moveToLast()) {
                         do {
