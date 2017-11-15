@@ -205,7 +205,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, px);
     }
 
-    private ArrayList<String> results = new ArrayList<>();
+    private ArrayList<String> results = new ArrayList<String>();
 
     @Override
     public void onClick(View v) {
