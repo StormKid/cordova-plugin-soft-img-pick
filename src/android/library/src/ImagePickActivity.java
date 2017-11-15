@@ -80,7 +80,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
     /**
      * 新建数组来固定显示相册或者是相片
      */
-    private ArrayList<pick.image.com.myapplication.ItemPhotoEntity> itemPhotoEntities = new ArrayList<>();
+    private ArrayList<com.soft.img.pick.ItemPhotoEntity> itemPhotoEntities = new ArrayList<>();
 
     /**
      * 限制能选择照相数量

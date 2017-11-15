@@ -142,7 +142,7 @@ public class softImgPick extends CordovaPlugin {
 
         } else if (resultCode == Activity.RESULT_CANCELED) {
 
-            callbackContext.success(res);
+            callbackContext.success(ERR);
 
         } else {
             callbackContext.error(ERR);
