@@ -156,6 +156,6 @@ public class softImgPick extends CordovaPlugin {
      */
     @Override
     public void onRestoreStateForActivityResult(Bundle state, CallbackContext callbackContext) {
-       this.callbackContext=callbackContext
+       this.callbackContext=callbackContext;
     }
 }
