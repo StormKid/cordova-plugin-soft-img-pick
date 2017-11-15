@@ -1,5 +1,6 @@
 package com.soft.img.pick;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -262,6 +263,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
            }else {
                Intent intent = new Intent();
                intent.putStringArrayListExtra("path_list",results);
+               setResult(Activity.RESULT_OK,intent);
                finish();
            }
         }
@@ -417,6 +419,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
             progressDialog.setProgress(0);
             Intent intent = new Intent();
             intent.putExtra("result_rep",s);
+            setResult(Activity.RESULT_OK,intent);
             finish();
         }
 
