@@ -149,7 +149,11 @@ public class softImgPick extends CordovaPlugin {
         }
     }
 
-
+    /**
+     * 保证请求状态发生异常时能够返回此页面
+     * @param state             Bundle containing the state of the plugin
+     * @param callbackContext   Replacement Context to return the plugin result to
+     */
     @Override
     public void onRestoreStateForActivityResult(Bundle state, CallbackContext callbackContext) {
        this.callbackContext=callbackContext
