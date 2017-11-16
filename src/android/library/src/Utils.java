@@ -23,30 +23,6 @@ import java.util.Set;
 public class Utils {
 
 
-    /**
-     * Activity查找id
-     * @param t
-     * @param activity
-     * @param id
-     * @param <T>
-     * @return
-     */
-    public  static <T>T findViewById(Class<T> t, Activity activity, @IdRes int id){
-        View view = activity.findViewById(android.R.id.content);
-        return  (T)view.findViewById(id);
-    }
-
-
-    /**
-     * view中查找id
-     * @param t
-     * @param id
-     * @param <T>
-     * @return
-     */
-    public  static <T>T findViewById(Class<T> t, View view, @IdRes int id){
-        return  (T)view.findViewById(id);
-    }
 
     /**
      * 获取屏幕宽度
