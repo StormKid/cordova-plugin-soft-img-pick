@@ -12,10 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.soft.img.pick.R;
+import com.soft.img.pick.FakeR;
 
 import java.util.List;
-
 
 
 /**
@@ -23,7 +22,7 @@ import java.util.List;
  * Created by ke_li on 2017/11/7.
  */
 
-public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
+public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
 
     private Context context;
@@ -39,12 +38,13 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
     /**
      * 查找相册
      */
-    private final int ALBUM_TYPE= 1022;
+    private final String ALBUM_TYPE = "album_type";
 
     /**
      * 查找相片
      */
-    private final int IMG_TYPE = 1023;
+    private final String IMG_TYPE = "img_type";
+
     public AlbumAdapter(Context context, List<com.soft.img.pick.ItemPhotoEntity> entityList, String checkRes) {
         this.context = context;
         this.entityList = entityList;
@@ -53,11 +53,11 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(context).inflate(R.layout.item_main,parent,false);
+        View inflate = LayoutInflater.from(context).inflate(FakeR.getId(context, "layout", "item_main"), parent, false);
         return new ViewHolder(inflate);
     }
 
-    public  void  update(List<com.soft.img.pick.ItemPhotoEntity> entityList){
+    public void update(List<com.soft.img.pick.ItemPhotoEntity> entityList) {
         this.entityList = entityList;
         notifyDataSetChanged();
     }
@@ -65,7 +65,7 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final com.soft.img.pick.ItemPhotoEntity itemPhotoEntity = entityList.get(position);
-        final int type = itemPhotoEntity.getType();
+        final String type = itemPhotoEntity.getType();
         boolean checked = itemPhotoEntity.isChecked();
         final String name = itemPhotoEntity.getName();
         String path = itemPhotoEntity.getPath();
@@ -73,47 +73,44 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
         else holder.check_box.setVisibility(View.GONE);
         holder.itemView.setTag(checked);
         caculateItem();
-        LinearLayout.LayoutParams itemParams =  new LinearLayout.LayoutParams(ItemWidth,ItemHeight);
-        RelativeLayout.LayoutParams checkParams = new RelativeLayout.LayoutParams(checkWidth,checkHeight);
+        LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(ItemWidth, ItemHeight);
+        RelativeLayout.LayoutParams checkParams = new RelativeLayout.LayoutParams(checkWidth, checkHeight);
         RelativeLayout.LayoutParams gridParams = new RelativeLayout.LayoutParams(gridWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
         checkParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        itemParams.setMargins(margin_size,margin_size,margin_size,margin_size);
-        checkParams.setMargins(0,margin_size,margin_size,0);
+        itemParams.setMargins(margin_size, margin_size, margin_size, margin_size);
+        checkParams.setMargins(0, margin_size, margin_size, 0);
         holder.check_box.setLayoutParams(checkParams);
         holder.item_img.setLayoutParams(itemParams);
-        if (type ==ALBUM_TYPE)
-        holder.item_img.setImageResource(R.mipmap.album);
+        if (type == ALBUM_TYPE)
+            holder.item_img.setImageResource(FakeR.getId(context, "mipmap", "album"));
         else {
             holder.item_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Glide.with(context).load(path).into(holder.item_img);
         }
         if (TextUtils.isEmpty(checkRes))
-        holder.check_box.setImageResource(R.mipmap.choose);
-        else com.soft.img.pick.Utils.putImg(context,checkRes,holder.check_box);
+            holder.check_box.setImageResource(FakeR.getId(context, "mipmap", "choose"));
+        else com.soft.img.pick.Utils.putImg(context, checkRes, holder.check_box);
         holder.item_name.setText(name);
-        holder.item_name.setTextSize(TypedValue.COMPLEX_UNIT_PX,itemTextSize);
+        holder.item_name.setTextSize(TypedValue.COMPLEX_UNIT_PX, itemTextSize);
         holder.item_contain.setLayoutParams(gridParams);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (type) {
-                    case IMG_TYPE:
-                        boolean tag = v.getTag() == null ? false : (Boolean) v.getTag();
-                        if (tag) {
-                            tag = false;
-                            v.setTag(tag);
-                            itemPhotoEntity.setChecked(tag);
-                        } else {
-                            tag = true;
-                            v.setTag(tag);
-                            itemPhotoEntity.setChecked(tag);
-                        }
-                        entityList.set(position, itemPhotoEntity);
-                        notifyDataSetChanged();
-                        break;
-                    case ALBUM_TYPE:
-                        if (listerner!=null)listerner.onClick(name);
-                        break;
+                if (type.equals(IMG_TYPE)) {
+                    boolean tag = v.getTag() == null ? false : (Boolean) v.getTag();
+                    if (tag) {
+                        tag = false;
+                        v.setTag(tag);
+                        itemPhotoEntity.setChecked(tag);
+                    } else {
+                        tag = true;
+                        v.setTag(tag);
+                        itemPhotoEntity.setChecked(tag);
+                    }
+                    entityList.set(position, itemPhotoEntity);
+                    notifyDataSetChanged();
+                } else {
+                    if (listerner != null) listerner.onClick(name);
                 }
             }
         });
@@ -121,14 +118,14 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return entityList==null?0:entityList.size();
+        return entityList == null ? 0 : entityList.size();
     }
 
     public void setListerner(MyClickItemListerner listerner) {
         this.listerner = listerner;
     }
 
-    class  ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView item_img;
         private final ImageView check_box;
@@ -137,29 +134,28 @@ public  class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder>
 
         public ViewHolder(View itemView) {
             super(itemView);
-            item_img = com.soft.img.pick.Utils.findViewById(ImageView.class, itemView, R.id.item_img);
-            check_box = com.soft.img.pick.Utils.findViewById(ImageView.class, itemView, R.id.check_box);
-            item_name = com.soft.img.pick.Utils.findViewById(TextView.class, itemView, R.id.item_name);
-            item_contain = com.soft.img.pick.Utils.findViewById(RelativeLayout.class, itemView, R.id.item_contain);
-
+            item_img = (ImageView) itemView.findViewById(FakeR.getId(context, "id", "item_img"));
+            check_box = (ImageView) itemView.findViewById(FakeR.getId(context, "id", "check_box"));
+            item_name = (TextView) itemView.findViewById(FakeR.getId(context, "id", "item_name"));
+            item_contain = (RelativeLayout) itemView.findViewById(FakeR.getId(context, "id", "item_contain"));
         }
     }
 
 
-    private void  caculateItem(){
+    private void caculateItem() {
         int windowWidth = com.soft.img.pick.Utils.getWindowWidth(context);
-        ItemHeight = ItemWidth = windowWidth*80/300;
-        checkHeight = checkWidth = windowWidth/20;
-        margin_size = windowWidth/35;
-        itemTextSize = windowWidth/26;
-        gridWidth = windowWidth/3;
+        ItemHeight = ItemWidth = windowWidth * 80 / 300;
+        checkHeight = checkWidth = windowWidth / 20;
+        margin_size = windowWidth / 35;
+        itemTextSize = windowWidth / 26;
+        gridWidth = windowWidth / 3;
     }
 
 
     private MyClickItemListerner listerner;
 
 
-    public interface MyClickItemListerner{
+    public interface MyClickItemListerner {
         void onClick(String name);
     }
 

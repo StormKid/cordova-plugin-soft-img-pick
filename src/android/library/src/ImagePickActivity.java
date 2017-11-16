@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.soft.img.pick.R;
+import com.soft.img.pick.FakeR;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -65,17 +65,17 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
     /**
      * 查找相册
      */
-    private final int ALBUM_TYPE = 1022;
+    private final String ALBUM_TYPE = "album_type";
 
     /**
      * 查找相片
      */
-    private final int IMG_TYPE = 1023;
+    private final String IMG_TYPE = "img_type";
 
     /**
      * 记录状态更新
      */
-    private int TYPE;
+    private String TYPE;
 
     /**
      * 新建数组来固定显示相册或者是相片
@@ -117,7 +117,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(FakeR.getId(this,"layout","activity_main"));
         initData();
         initView();
         loadedView();
@@ -162,11 +162,10 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
         progressDialog.setCancelable(false);// 设置是否可以通过点击Back键取消
         progressDialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        title_cancel = com.soft.img.pick.Utils.findViewById(TextView.class, this, R.id.title_cancel);
-        title_ok = com.soft.img.pick.Utils.findViewById(TextView.class, this, R.id.title_ok);
-        pick_main = com.soft.img.pick.Utils.findViewById(ViewGroup.class, this, R.id.pick_main);
-        file_list = com.soft.img.pick.Utils.findViewById(RecyclerView.class, this, R.id.file_list);
-
+        title_cancel = (TextView) findViewById(FakeR.getId(this,"id","title_cancel"));
+        title_ok = (TextView) findViewById(FakeR.getId(this,"id","title_ok"));
+        pick_main = (ViewGroup)findViewById(FakeR.getId(this,"id","pick_main"));
+        file_list = (RecyclerView) findViewById(FakeR.getId(this,"id","file_list"));
     }
 
 
@@ -210,28 +209,18 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == title_cancel.getId()) {
-            switch (TYPE) {
-                case ALBUM_TYPE:
-                    finish();
-                    break;
-                case IMG_TYPE:
-                    this.TYPE = ALBUM_TYPE;
-                    task = new MyTask();
-                    task.execute(TYPE);
-                    break;
+            if (TYPE.equals(ALBUM_TYPE))finish();
+            else {
+                this.TYPE = ALBUM_TYPE;
+                task = new MyTask();
+                task.execute(TYPE);
             }
+
         }
 
         if (v.getId() == title_ok.getId()) {
-            switch (TYPE) {
-                case ALBUM_TYPE:
-                    Toast.makeText(this, "请进入相册选择您需要上传的图片", Toast.LENGTH_SHORT).show();
-                    break;
-                case IMG_TYPE:
-                    //获取相片URL
-                    setResults();
-                    break;
-            }
+            if (TYPE.equals(ALBUM_TYPE))  Toast.makeText(this, "请进入相册选择您需要上传的图片", Toast.LENGTH_SHORT).show();
+            else setResults();
         }
     }
 
@@ -274,7 +263,7 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
      * 后台默认执行Task来完成查找相册与查看相片
      * 在调用此tast的时候必须要验证权限
      */
-    private class MyTask extends AsyncTask<Integer, Integer, ArrayList<com.soft.img.pick.ItemPhotoEntity>> {
+    private class MyTask extends AsyncTask<String, Integer, ArrayList<com.soft.img.pick.ItemPhotoEntity>> {
 
 
         private String album;
@@ -298,84 +287,82 @@ public class ImagePickActivity extends AppCompatActivity implements View.OnClick
 
         //执行中判断string是相册还是查相片
         @Override
-        protected ArrayList<com.soft.img.pick.ItemPhotoEntity> doInBackground(Integer... integers) {
-            int TAG = integers[0];
-            switch (TAG) {
-                case ALBUM_TYPE:
-                    if (this.isCancelled()) {
-                        break;
+        protected ArrayList<com.soft.img.pick.ItemPhotoEntity> doInBackground(String... integers) {
+            String TAG = integers[0];
+            if (TAG.equals(ALBUM_TYPE)) {
+                        if (this.isCancelled()) {
+                            return null;
+                        }
+                        Cursor cursor = getApplicationContext().getContentResolver()
+                                .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
+                                        null, null, MediaStore.Images.Media.DATE_ADDED);
+                        if (cursor == null) {
+                            return null;
+                        }
+
+                        ArrayList<com.soft.img.pick.ItemPhotoEntity> temp = new ArrayList<com.soft.img.pick.ItemPhotoEntity>(cursor.getCount());
+                        HashSet<String> albumSet = new HashSet<String>();
+                        File file;
+                        if (cursor.moveToLast()) {
+                            do {
+                                if (Thread.interrupted()) {
+                                    break;
+                                }
+                                String album = cursor.getString(cursor.getColumnIndex(projection[0]));
+                                String image = cursor.getString(cursor.getColumnIndex(projection[1]));
+                                file = new File(image);
+                                if (file.exists() && !albumSet.contains(album)) {
+                                    com.soft.img.pick.ItemPhotoEntity itemPhotoEntity = new com.soft.img.pick.ItemPhotoEntity();
+                                    itemPhotoEntity.setName(album);
+                                    itemPhotoEntity.setType(TAG);
+                                    temp.add(itemPhotoEntity);
+                                    albumSet.add(album);
+                                }
+
+                            } while (cursor.moveToPrevious());
+                        }
+                        cursor.close();
+
+                        itemPhotoEntities.clear();
+                        itemPhotoEntities.addAll(temp);
                     }
-                    Cursor cursor = getApplicationContext().getContentResolver()
-                            .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
-                                    null, null, MediaStore.Images.Media.DATE_ADDED);
-                    if (cursor == null) {
-                        break;
-                    }
+              else {
+                if (this.isCancelled()) {
+                    return  null;
+                }
+                Cursor icursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, iprojection,
+                        MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " =?", new String[]{album}, MediaStore.Images.Media.DATE_ADDED);
 
-                    ArrayList<com.soft.img.pick.ItemPhotoEntity> temp = new ArrayList<com.soft.img.pick.ItemPhotoEntity>(cursor.getCount());
-                    HashSet<String> albumSet = new HashSet<String>();
-                    File file;
-                    if (cursor.moveToLast()) {
-                        do {
-                            if (Thread.interrupted()) {
-                                break;
-                            }
-                            String album = cursor.getString(cursor.getColumnIndex(projection[0]));
-                            String image = cursor.getString(cursor.getColumnIndex(projection[1]));
-                            file = new File(image);
-                            if (file.exists() && !albumSet.contains(album)) {
-                                com.soft.img.pick.ItemPhotoEntity itemPhotoEntity = new com.soft.img.pick.ItemPhotoEntity();
-                                itemPhotoEntity.setName(album);
-                                itemPhotoEntity.setType(TAG);
-                                temp.add(itemPhotoEntity);
-                                albumSet.add(album);
-                            }
+                if (icursor == null) {
+                    return  null;
+                }
+                ArrayList<com.soft.img.pick.ItemPhotoEntity> tempi = new ArrayList<com.soft.img.pick.ItemPhotoEntity>(icursor.getCount());
 
-                        } while (cursor.moveToPrevious());
-                    }
-                    cursor.close();
+                if (icursor.moveToLast()) {
+                    do {
+                        if (this.isCancelled()) {
+                            break;
+                        }
+                        long id = icursor.getLong(icursor.getColumnIndex(iprojection[0]));
+                        String name = icursor.getString(icursor.getColumnIndex(iprojection[1]));
+                        String path = icursor.getString(icursor.getColumnIndex(iprojection[2]));
+                        File  file = new File(path);
+                        if (file.exists()) {
+                            com.soft.img.pick.ItemPhotoEntity photoEntity = new com.soft.img.pick.ItemPhotoEntity();
+                            photoEntity.setId(id);
+                            photoEntity.setName(name);
+                            photoEntity.setPath(path);
+                            photoEntity.setType(TAG);
+                            tempi.add(photoEntity);
+                        }
 
-                    itemPhotoEntities.clear();
-                    itemPhotoEntities.addAll(temp);
-                    break;
-                case IMG_TYPE:
-                    if (this.isCancelled()) {
-                        break;
-                    }
-                    Cursor icursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, iprojection,
-                            MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " =?", new String[]{album}, MediaStore.Images.Media.DATE_ADDED);
+                    } while (icursor.moveToPrevious());
+                }
+                icursor.close();
 
-                    if (icursor == null) {
-                        break;
-                    }
-                    ArrayList<com.soft.img.pick.ItemPhotoEntity> tempi = new ArrayList<com.soft.img.pick.ItemPhotoEntity>(icursor.getCount());
+                itemPhotoEntities.clear();
+                itemPhotoEntities.addAll(tempi);
 
-                    if (icursor.moveToLast()) {
-                        do {
-                            if (this.isCancelled()) {
-                                break;
-                            }
-                            long id = icursor.getLong(icursor.getColumnIndex(iprojection[0]));
-                            String name = icursor.getString(icursor.getColumnIndex(iprojection[1]));
-                            String path = icursor.getString(icursor.getColumnIndex(iprojection[2]));
-                            file = new File(path);
-                            if (file.exists()) {
-                                com.soft.img.pick.ItemPhotoEntity photoEntity = new com.soft.img.pick.ItemPhotoEntity();
-                                photoEntity.setId(id);
-                                photoEntity.setName(name);
-                                photoEntity.setPath(path);
-                                photoEntity.setType(TAG);
-                                tempi.add(photoEntity);
-                            }
-
-                        } while (icursor.moveToPrevious());
-                    }
-                    icursor.close();
-
-                    itemPhotoEntities.clear();
-                    itemPhotoEntities.addAll(tempi);
-
-                    break;
             }
             return itemPhotoEntities;
         }

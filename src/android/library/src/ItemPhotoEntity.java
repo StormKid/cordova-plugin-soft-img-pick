@@ -8,18 +8,18 @@ import java.io.Serializable;
 
 public class ItemPhotoEntity implements Serializable{
 
-    private int Type ;
+    private String Type ;
     private long id;
     private String name;
     private String path;
     private boolean isChecked;
 
 
-    public int getType() {
+    public String getType() {
         return Type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         Type = type;
     }
 
