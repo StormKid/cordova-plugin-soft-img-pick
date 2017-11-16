@@ -96,6 +96,7 @@ public class softImgPick extends CordovaPlugin {
      * 只允许Stirng 参数
      * @param object
      */
+    @SuppressLint("InlinedApi")
     private Bundle toBundle(JSONObject object) throws JSONException {
         if (null==object) return null;
         Iterator<String> keys = object.keys();
@@ -120,6 +121,7 @@ public class softImgPick extends CordovaPlugin {
         callbackContext.success();
     }
 
+    @SuppressLint("InlinedApi")
     private boolean hasReadPermission() {
         return Build.VERSION.SDK_INT < 23 ||
             PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this.cordova.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
