@@ -81,7 +81,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         checkParams.setMargins(0, margin_size, margin_size, 0);
         holder.check_box.setLayoutParams(checkParams);
         holder.item_img.setLayoutParams(itemParams);
-        if (type == ALBUM_TYPE)
+        if (type .equals( ALBUM_TYPE))
             holder.item_img.setImageResource(FakeR.getId(context, "mipmap", "album"));
         else {
             holder.item_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
