@@ -28,6 +28,7 @@
         <source-file src="src/android/library/src/ImagePickActivity.java" target-dir="src/com/soft/img/pick"/>
         <source-file src="src/android/library/src/ItemPhotoEntity.java" target-dir="src/com/soft/img/pick"/>
         <source-file src="src/android/library/src/Utils.java" target-dir="src/com/soft/img/pick"/>
+        <source-file src="src/android/library/src/FakeR.java" target-dir="src/com/soft/img/pick">
         <!-- res资源文件 -->
         <source-file src="src/android/library/res/mipmap/album.png" target-dir="res/mipmap-xxhdpi"/>
         <source-file src="src/android/library/res/mipmap/choose.png" target-dir="res/mipmap-xxhdpi"/>
