@@ -3,6 +3,7 @@ package com.soft.img.pick;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -11,7 +12,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +55,17 @@ public class softImgPick extends CordovaPlugin {
     private final String PHOTO_PARAMS = "photo_params";
 
     private  final  static  String ERR = "请选择您所需要的图片";
+    private CordovaInterface cordova;
+    private CordovaWebView webView;
+    private Context context;
 
+    @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+        this.cordova = cordova;
+        this.webView = webView;
+        context = cordova.getActivity().getApplicationContext();
+    }
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
