@@ -61,7 +61,6 @@ public class softImgPick extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        super.initialize(cordova, webView);
         this.cordova = cordova;
         this.webView = webView;
         context = cordova.getActivity().getApplicationContext();
