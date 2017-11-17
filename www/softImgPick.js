@@ -44,4 +44,4 @@ softImgPick.prototype.showList = function(done, err, options) {
 }
 
 
-window.softPick = new softPick();
+window.softImgPick = new softImgPick();
