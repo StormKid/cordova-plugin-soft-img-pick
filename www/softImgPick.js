@@ -1,7 +1,7 @@
 var exec = require('cordova/exec');
-var softPick = function() {}
+var softImgPick = function() {}
 
-softPick.prototype.requestReadPermission = function(callback) {
+softImgPick.prototype.requestReadPermission = function(callback) {
     return cordova.exec(callback, null, "softPick", "requestReadPermission", []);
 };
 
@@ -10,7 +10,7 @@ softPick.prototype.requestReadPermission = function(callback) {
  * @param {*} callback 
  * @param {*} options 
  */
-softPick.prototype.showList = function(done, err, options) {
+softImgPick.prototype.showList = function(done, err, options) {
 
     if (!options) {
         options = {}
