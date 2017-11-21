@@ -4,12 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <name>softImgPick</name>
     <js-module name="softImgPick" src="www/softImgPick.js">
-        <clobbers target="softImgPick" />
+        <clobbers target="cordova.plugins" />
     </js-module>
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="softImgPick">
                 <param name="android-package" value="com.soft.img.pick" />
+                <param name="onload" value="true">
             </feature>
         </config-file>
         <!-- 支持包 -->
