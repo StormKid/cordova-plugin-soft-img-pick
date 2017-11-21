@@ -2,7 +2,7 @@ var exec = require('cordova/exec');
 var softImgPick = function() {}
 
 softImgPick.prototype.requestReadPermission = function(callback) {
-    return cordova.exec(callback, null, "softImgPick", "requestReadPermission", []);
+    return exec(callback, null, "softImgPick", "requestReadPermission", []);
 };
 
 /**
@@ -39,7 +39,7 @@ softImgPick.prototype.showList = function(done, err, options) {
         banner_color = options.banner_color ? options.banner_color : "ffffff"
     }
 
-    return cordova.exec(done, err, "softImgPick", "showList", [params])
+    return exec(done, err, "softImgPick", "showList", [params])
 
 }
 
