@@ -21,6 +21,11 @@
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.INTERNET" />
         </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+          <activity  android:name="com.soft.img.pick.ImagePickActivity"/>
+        </config-file>
+
         <source-file src="src/android/softImgPick.java" target-dir="src/com/soft/img/pick" />
         <!-- 库文件代码 -->
         <source-file src="src/android/library/src/AlbumAdapter.java" target-dir="src/com/soft/img/pick"/>
