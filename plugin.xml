@@ -24,16 +24,6 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
           <activity  android:name="com.soft.img.pick.ImagePickActivity"/>
-
-          <provider
-              android:name="android.support.v4.content.FileProvider"
-              android:authorities="${applicationId}.provider"
-              android:exported="false"
-              android:grantUriPermissions="true" >
-              <meta-data
-                  android:name="android.support.FILE_PROVIDER_PATHS"
-                  android:resource="@xml/provider_paths"/>
-          </provider>
         </config-file>
 
         <source-file src="src/android/softImgPick.java" target-dir="src/com/soft/img/pick" />
