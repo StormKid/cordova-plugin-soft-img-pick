@@ -1,7 +1,9 @@
 var exec = require('cordova/exec');
+var argscheck = require('cordova/argscheck');
 var softImgPick = {
 
     requestReadPermission = function(callback) {
+        argscheck.checkArgs("F", "softImgPick.requestReadPermission", arguments)
         return exec(callback, null, "softImgPick", "requestReadPermission", [])
     },
 
@@ -38,7 +40,7 @@ var softImgPick = {
             //顶部banner的颜色
             banner_color = options.banner_color ? options.banner_color : "ffffff"
         }
-
+        argscheck.checkArgs("FFO", "softImgPick.showList", arguments)
         return exec(done, err, "softImgPick", "showList", [params])
 
     }
