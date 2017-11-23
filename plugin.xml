@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <name>softImgPick</name>
     <js-module name="softImgPick" src="www/softImgPick.js">
-        <clobbers target="softImgPick" />
+        <clobbers target="cordova.plugins.softImgPick" />
     </js-module>
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
