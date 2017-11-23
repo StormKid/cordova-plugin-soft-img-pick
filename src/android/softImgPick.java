@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -61,6 +63,7 @@ public class softImgPick extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
         this.cordova = cordova;
         this.webView = webView;
         context = cordova.getActivity().getApplicationContext();
@@ -71,6 +74,7 @@ public class softImgPick extends CordovaPlugin {
         this.callbackContext = callbackContext;
         if (action.equals(ACTION_REQUEST_READ_PERMISSION)) {
             requestReadPermission();
+            Toast.makeText(context,"请求权限",Toast.LENGTH_LONG).show();
             return true;
         }else if(action.equals(ACTION_SHOW_LIST)){
             JSONObject object = args.getJSONObject(0);
@@ -96,7 +100,7 @@ public class softImgPick extends CordovaPlugin {
             intent.putExtra(FILE_KEY,file_key);
             intent.putExtra(BANNER_COLOR,banner_color);
             intent.putExtras(bundle);
-
+            Toast.makeText(context,"进入页面",Toast.LENGTH_LONG).show();
             if (hasReadPermission()) cordova.startActivityForResult(this,intent,RESULT_CODE);
             else requestReadPermission();
             return true;
