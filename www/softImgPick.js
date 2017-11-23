@@ -1,8 +1,8 @@
 var exec = require('cordova/exec');
 var argscheck = require('cordova/argscheck');
-var softImgPick = {
+var softImgPick = function() {}
 
-    requestReadPermission = function(callback) {
+softImgPick.prototype.requestReadPermission = function(callback) {
         argscheck.checkArgs("F", "softImgPick.requestReadPermission", arguments)
         return exec(callback, null, "softImgPick", "requestReadPermission", [])
     },
@@ -12,7 +12,7 @@ var softImgPick = {
      * @param {*} callback 
      * @param {*} options 
      */
-    showList = function(done, err, options) {
+    softImgPick.prototype.showList = function(done, err, options) {
 
         if (!options) {
             options = {}
@@ -45,7 +45,7 @@ var softImgPick = {
 
     }
 
-}
 
 
-module.exports = softImgPick;
+
+module.exports = new softImgPick();
