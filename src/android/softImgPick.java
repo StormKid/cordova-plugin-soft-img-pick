@@ -30,6 +30,7 @@ import java.util.Iterator;
 public class softImgPick extends CordovaPlugin {
     private static final String ACTION_REQUEST_READ_PERMISSION = "requestReadPermission";
     private static final String ACTION_SHOW_LIST = "showList";
+    private static final String TEST_TOAST = "testToast"
     private static final int PERMISSION_REQUEST_CODE = 10086;
     private static  final  int RESULT_CODE = 10010;
     private CallbackContext callbackContext;
@@ -104,6 +105,10 @@ public class softImgPick extends CordovaPlugin {
             if (hasReadPermission()) cordova.startActivityForResult(this,intent,RESULT_CODE);
             else requestReadPermission();
             return true;
+        }else if(action.equals(TEST_TOAST)){
+             Toast.makeText(context,"测试一下",Toast.LENGTH_LONG).show();
+             callbackContext.success();
+             return true;
         }
         return false;
     }

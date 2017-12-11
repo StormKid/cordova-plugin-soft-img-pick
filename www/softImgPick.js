@@ -2,8 +2,8 @@ var exec = require('cordova/exec');
 var argscheck = require('cordova/argscheck');
 
 exports.requestReadPermission = function(callback) {
-    argscheck.checkArgs("F", "softImgPick.requestReadPermission", arguments)
-    return exec(callback, null, "softImgPick", "requestReadPermission", [])
+    argscheck.checkArgs("F", "softImgPick.requestReadPermission", arguments);
+    return exec(callback, null, "softImgPick", "requestReadPermission", []);
 };
 
 /**
@@ -14,7 +14,7 @@ exports.requestReadPermission = function(callback) {
 exports.showList = function(done, err, options) {
 
     if (!options) {
-        options = {}
+        options = {};
     }
 
     var params = {
@@ -39,7 +39,12 @@ exports.showList = function(done, err, options) {
         //顶部banner的颜色
         banner_color: options.banner_color ? options.banner_color : "ffffff"
     }
-    argscheck.checkArgs("FFO", "softImgPick.showList", arguments)
-    return exec(done, err, "softImgPick", "showList", [params])
+    argscheck.checkArgs("FFO", "softImgPick.showList", arguments);
+    return exec(done, err, "softImgPick", "showList", [params]);
 
 };
+
+exports.testToast = function() {
+    argscheck.checkArgs("F", "softImgPick.testToast", arguments);
+    return exec(null, null, "softImgPick", "testToast", []);
+}
